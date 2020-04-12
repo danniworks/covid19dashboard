@@ -1,0 +1,22 @@
+.root {
+    width: '100%';
+    background-color: lightblue;
+}
+
+.Container {
+    max-height: 500px;
+}
+
+.TableHeader {
+    background-color: white;
+}
+
+.TableTitle{
+    padding: 5px;
+    background-color: white;
+    
+}
+
+.TableTitle.p {
+    color: white;
+}
