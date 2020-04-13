@@ -32,8 +32,13 @@ class App extends Component {
 
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
-    console.log(socket);
+    const socket = socketIOClient(endpoint, { transports: ['websocket'] });
+
+    socket.on('connect', function () {
+      console.log('connected!');
+    });
+
+    console.log(endpoint);
   }
 
   render() {
