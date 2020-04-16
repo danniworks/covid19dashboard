@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import socketIOClient from "socket.io-client";
 import './App.css';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -7,13 +6,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import PrimaryAppBar from './components/AppBar/PrimaryAppBar';
 import SideBar from './components/AppBar/SideBar';
 import Main from './components/Main';
-import Footer from './components/Footer/Footer';
 
 const theme = createMuiTheme({
+  backgroundColor: 'black',
   typography: {
     fontFamily: [
-      'Nunito',
-      'Roboto',
       '"Helvetica Neue"',
       'Arial',
       'sans-serif'
@@ -26,19 +23,23 @@ class App extends Component {
     super();
     this.state = {
       response : false,
-      endpoint : 'wss://6ka50xq2x9.execute-api.us-east-1.amazonaws.com/dev'
+      endpoint : 'wss://6ka50xq2x9.execute-api.us-east-1.amazonaws.com/dev',
+      socket: null
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint, { transports: ['websocket'] });
-
-    socket.on('connect', function () {
-      console.log('connected!');
-    });
-
-    console.log(endpoint);
+    
+    const ws = new WebSocket(endpoint);
+    ws.onopen = () => { 
+      this.setState({socket : ws});
+      // ws.send({"action" : "updates"});
+      // console.log(ws); 
+      // ws.onmessage = evt => {
+      //   console.log(evt.data);
+      // }
+    };
   }
 
   render() {
@@ -47,8 +48,7 @@ class App extends Component {
         <div className="App">
           <PrimaryAppBar />
           <SideBar />
-          <Main />
-          <Footer />
+          <Main socket={this.state.socket} />
         </div>
       </ThemeProvider>
     );

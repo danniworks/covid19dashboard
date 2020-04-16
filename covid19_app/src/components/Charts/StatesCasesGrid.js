@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +10,10 @@ import TableRow from '@material-ui/core/TableRow';
 
 import usaStatesData from './usaStates.json';
 import './Charts.css';
+
+const styles = theme => ({
+    
+});
 
 class StateCasesGrid extends Component {
     
@@ -67,4 +72,4 @@ class StateCasesGrid extends Component {
         );
     }
 }
-export default StateCasesGrid
+export default withStyles(styles)(StateCasesGrid);

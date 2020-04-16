@@ -4,10 +4,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
-      background: 'linear-gradient(90deg, rgba(27,36,94,1) 0%, rgba(12,98,94,1) 100%, rgba(16,0,255,1) 100%)',
-      zIndex: theme.zIndex.drawer + 1
+      background: 'linear-gradient(to right, #800000 63%, #ffcc66 100%)',
+      color: 'white',
+      zIndex: theme.zIndex.drawer + 1.,
+      [theme.breakpoints.up('sm')] : {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth
+      }
     }
 }));
  
@@ -18,7 +24,7 @@ function PrimaryAppBar() {
             <AppBar position="absolute" className={classes.root}>
                 <Toolbar>
                     <Typography variant="h5" color="inherit"> 
-                        COVID19 Trends and Statistics
+                        Dashboard
                     </Typography>
                 </Toolbar>
             </AppBar>

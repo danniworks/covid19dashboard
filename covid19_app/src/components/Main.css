@@ -1,0 +1,23 @@
+.root {
+    flex-grow: 1;
+    background-color: 'black';
+    padding-left: 250px;
+}
+
+.Paper {
+    padding: 20px;
+}
+
+.Container {
+    padding: 20px;
+}
+
+.Dashboard {
+    text-align: 'left';
+    padding-top: 50px;
+    padding-bottom: 25px;
+    padding-left: 20px;
+    font-weight: 'bold';
+    font-size: 25px;
+    color: 'black';
+}
