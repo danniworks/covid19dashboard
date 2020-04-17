@@ -2,8 +2,8 @@ module.exports = {
     apps : [
       {
         name: "covid19_webapp",
-        script: "serve",
-        args: "-s build",
+        script: "npm",
+        args: "run start",
         watch: true,
         env: {
           "PORT": 8080,
