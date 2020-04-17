@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 
-import './CasesContainers.css';
+const styles = theme => ({
+    root: {
+        color: 'white',
+        backgroundColor: '#7a7a7a'
+    },
+
+    Typography: {
+        textAlign: 'left',
+        paddingLeft: 25,
+        paddingTop: 5
+    },
+
+    Numbers: {
+        textAlign: 'left',
+        paddingLeft: 25,
+        paddingBottom: 10,
+        paddingTop: 3
+    }
+});
 
 class CasesBox extends Component {
 
@@ -12,16 +31,17 @@ class CasesBox extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         return (
-            <div>
+            <div className={classes.root}>
                 <Grid>
                     <Grid item xs={8}>
-                        <Typography className={"Typography"}>
+                        <Typography className={classes.Typography}>
                             <b>{this.name}</b>
                         </Typography>
                     </Grid>
                     <Grid item xs={8}>
-                        <Typography variant="h5" className={"Active"}>
+                        <Typography className={classes.Numbers}>
                             <b>0</b>
                         </Typography>
                     </Grid>
@@ -34,4 +54,4 @@ class CasesBox extends Component {
     }
 }
 
-export default CasesBox
+export default withStyles(styles)(CasesBox);

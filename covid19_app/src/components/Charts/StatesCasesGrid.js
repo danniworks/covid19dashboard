@@ -7,64 +7,82 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-import usaStatesData from './usaStates.json';
-import './Charts.css';
+import Divider from '@material-ui/core/Divider';
 
 const styles = theme => ({
-    
+    Header: {
+        color: 'white',
+        backgroundColor: '#7a7a7a'
+    },
+    TableTitle: {
+        textAlign: 'left',
+        paddingLeft: 15,
+        paddingTop: 10,
+        paddingBottom: 10
+    },
+    Container: {
+        height: 500
+    }
 });
 
 class StateCasesGrid extends Component {
     
     constructor(props) {
         super(props);
-        this.gridRef = React.createRef();
 
         const colHeaders = [
             { id: 'state', label: 'State', minWidth: 100 },
             { id: 'confirmed', label: 'Confirmed Cases', minWidth: 100 },
             { id: 'active', label: 'Recovered', minWidth: 100 },
-            { id: 'recovered', label: 'Deaths', minWidth: 100 },
+            { id: 'deaths', label: 'Deaths', minWidth: 100 },
         ];
 
-        const listUsaStates = [];
-        Object.keys(usaStatesData).forEach( function(key) {
-            var val = 
-                <TableRow hover role="checkbox" tabIndex={-1} key={key}>
-                    <TableCell key="states">{key}</TableCell>
-                    <TableCell key="confirmed">0</TableCell>
-                    <TableCell key="active">0</TableCell>
-                    <TableCell key="recovered">0</TableCell>
-                </TableRow>;
-            listUsaStates.push(val);
-        });
-
         this.state = {
-            statesList : listUsaStates,
             tableColHeaders: colHeaders
         }
     }
 
+    mapDataToTable(stateData) {
+        const statesList = [];
+        Object.keys(stateData.updatedStates).forEach( (key) => {
+            const stateObject = stateData.updatedStates[key];
+            if (stateObject.State !== "") {
+                var html = 
+                    <TableRow hover role="checkbox" tabIndex={-1} key={key}>
+                        <TableCell key="states"><b>{stateObject.State}</b></TableCell>
+                        <TableCell key="confirmed">{stateObject.Confirmed}</TableCell>
+                        <TableCell key="active">{stateObject.Recovered}</TableCell>
+                        <TableCell key="deaths">{stateObject.Deaths}</TableCell>
+                    </TableRow>;
+                statesList.push(html);
+            }
+        });
+        return statesList;
+    }
+
     render() {
+        const { classes } = this.props;
+        const { stateData } = this.props;
+        const stateHtml = (stateData != null) ? this.mapDataToTable(stateData) : null;
         return (
             <div>
-                <Typography variant="h6" color="inherit" display="block" className="TableTitle">
+                <Typography display="block" className={classes.TableTitle}>
                         <b>Cases by State</b>
                 </Typography>
-                <TableContainer className={"Container"}>
+                <Divider />
+                <TableContainer className={classes.Container}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
                                 {this.state.tableColHeaders.map( (headers) => (
-                                    <TableCell key={headers.id} style={{ minWidth: headers.minWidth }}>
+                                    <TableCell key={headers.id} style={{ minWidth: headers.minWidth }} className={classes.Header}>
                                         {headers.label}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.statesList}
+                            {stateHtml}
                         </TableBody>
                     </Table>
                 </TableContainer>

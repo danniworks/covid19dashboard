@@ -52,7 +52,6 @@ const usaStates = [
 
 const options = ['Dashboard', 'Trends'];
 
-
 class SideBar extends Component {
     constructor(props) {
         super(props);

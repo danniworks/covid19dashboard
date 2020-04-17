@@ -1,17 +1,37 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import Divider from '@material-ui/core/Divider';
 
-import './Charts.css';
+const styles = theme => ({
+    Header: {
+        color: 'white',
+        backgroundColor: '#7a7a7a'
+    },
+    TableTitle: {
+        textAlign: 'left',
+        paddingLeft: 15,
+        paddingTop: 10,
+        paddingBottom: 10
+    },
+    Container: {
+        height: 500
+    }
+});
 
 class StatisticsContainer extends Component {
 
     render() {
+        const { classes } = this.props;
         return (
-            <Typography variant="h6" color="inherit" display="block" className="TableTitle">
-                    <b>Trend</b>
-            </Typography>
+            <div className={classes.Container}>
+                <Typography display="block" className={classes.TableTitle}>
+                    <b>Growth Rate</b>
+                </Typography>
+                <Divider />
+            </div>
         );
     }
 }
 
-export default StatisticsContainer
+export default withStyles(styles)(StatisticsContainer);

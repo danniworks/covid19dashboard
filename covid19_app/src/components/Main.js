@@ -4,20 +4,17 @@ import Paper from '@material-ui/core/Paper';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
-import MapContainer from './Map/MapContainer';
+import UsaMapContainer from './Map/UsaMapContainer';
+
 import StatesCasesGrid from './Charts/StatesCasesGrid';
 import StatisticsContainer from './Charts/StatisticsContainer';
 import CasesGrid from './Charts/CasesContainers/CasesGrid';
+import Breakdown from './Charts/Breakdown';
 
-const drawerWidth = 240;
 const styles = (theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: '#e8e8e8',
-        [theme.breakpoints.up('sm')] : {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth
-        }
+        backgroundColor: '#f5f5f5'
     },
     Paper: {
         padding: theme.spacing(2),
@@ -30,16 +27,41 @@ const styles = (theme) => ({
     Dashboard: {
         textAlign: 'left',
         paddingTop: 15,
-        paddingBottom: 15,
+        paddingBottom: 5,
         paddingLeft: 20,
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: 'black'
+        fontSize: 18,
+        color: '#4287f5'
     },
     Spacer: theme.mixins.toolbar,
 });
 
 class Main extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            endpoint : 'wss://6ka50xq2x9.execute-api.us-east-1.amazonaws.com/dev',
+            socket: null,
+            casesByState: null
+        }
+    }
+
+    componentDidMount() {
+        const { endpoint } = this.state;
+        const ws = new WebSocket(endpoint);
+        ws.onopen = () => { 
+            this.setState({socket : ws});
+            ws.send({"action" : "updates"});
+            ws.onmessage = evt => {
+                this.setState({casesByState: this.parseJson(evt.data)});
+            }
+        };
+    }
+
+    parseJson(data) {
+        const dataJson = JSON.parse(data);
+        return dataJson;
+    }
+
     render() {
         const { classes } = this.props;
         return(
@@ -47,21 +69,30 @@ class Main extends Component {
                 <div className={classes.Spacer} />
                 <div>
                     <Container className={classes.Dashboard}>
-                        United States
+                        Dashboard / United States
                     </Container>
                     <Container className={classes.Container}>
                         <CasesGrid />
                     </Container>
                     <Container className={classes.Container}>
-                        <Paper className={classes.Paper}>
-                            <MapContainer/>
-                        </Paper>
+                        <Grid container spacing={2}>
+                            <Grid item xs={9}>
+                                <Paper className={classes.Paper}>
+                                    <UsaMapContainer stateData={this.state.casesByState}/>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Paper className={classes.Paper}>
+                                    <Breakdown />
+                                </Paper>
+                            </Grid>
+                        </Grid>
                     </Container>
                     <Container className={classes.Container}>
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                    <StatesCasesGrid />
+                                    <StatesCasesGrid stateData={this.state.casesByState}/>
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
