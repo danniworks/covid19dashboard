@@ -6,21 +6,27 @@ import Grid from '@material-ui/core/Grid';
 const styles = () => ({
     root: {
         color: 'white',
-        backgroundColor: '#7a7a7a'
+        background: 'linear-gradient(180deg, rgba(95,48,136,1) 0%, rgba(54,37,162,1) 100%)'
     },
-
     Typography: {
         textAlign: 'left',
         paddingLeft: 25,
-        paddingTop: 5
+        paddingTop: 5,
+        fontSize: 20
     },
-
     Numbers: {
         textAlign: 'left',
         paddingLeft: 25,
         paddingBottom: 10,
         paddingTop: 1,
         fontSize: 30
+    },
+    Total: {
+        textAlign: 'left',
+        fontSize: 20,
+        paddingLeft: 25,
+        paddingBottom: 10,
+        paddingTop: 15,
     }
 });
 
@@ -45,13 +51,17 @@ class CasesBox extends Component {
                             <b>{this.name}</b>
                         </Typography>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
                         <Typography className={classes.Numbers}>
-                            <b >{this.formatNumber(this.props.value)}</b>
+                            <b>{this.formatNumber(this.props.value)}</b>
                         </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        
+                        </Grid>
+                        <Grid item xs={6}>
+                        <Typography className={classes.Total}>
+                            <b>/ {this.formatNumber(this.props.total)} </b>
+                        </Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
             </div>

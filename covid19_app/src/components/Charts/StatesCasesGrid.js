@@ -12,7 +12,8 @@ import Divider from '@material-ui/core/Divider';
 const styles = () => ({
     Header: {
         color: 'white',
-        backgroundColor: '#7a7a7a'
+        background: 'linear-gradient(180deg, rgba(95,48,136,1) 0%, rgba(54,37,162,1) 100%)',
+        fontWeight: 'bold'
     },
     TableTitle: {
         textAlign: 'left',
@@ -32,7 +33,7 @@ class StateCasesGrid extends Component {
 
         const colHeaders = [
             { id: 'state', label: 'State', minWidth: 100 },
-            { id: 'confirmed', label: 'Confirmed Cases', minWidth: 100 },
+            { id: 'confirmed', label: 'Confirmed', minWidth: 100 },
             { id: 'active', label: 'Recovered', minWidth: 100 },
             { id: 'deaths', label: 'Deaths', minWidth: 100 },
         ];

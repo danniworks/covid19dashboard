@@ -69,7 +69,7 @@ class Main extends Component {
                 <div className={classes.Spacer} />
                 <div>
                     <Container className={classes.Dashboard}>
-                        Dashboard / United States
+                        Dashboard (Under Construction) / United States / Last Updated : 4/16/2020
                     </Container>
                     <Container className={classes.Container}>
                         <CasesGrid covidJson={this.state.covidJson} />

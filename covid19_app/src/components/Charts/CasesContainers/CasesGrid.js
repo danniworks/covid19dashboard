@@ -11,7 +11,8 @@ class CasesGrid extends Component {
         this.state = {
             active: 0,
             recovered: 0,
-            deaths: 0
+            deaths: 0,
+            confirmed: 0
         }
     }
     
@@ -23,7 +24,8 @@ class CasesGrid extends Component {
             this.setState({
                 active: updatedCountry.Active,
                 recovered: updatedCountry.Recovered,
-                deaths: updatedCountry.Deaths
+                deaths: updatedCountry.Deaths,
+                confirmed: updatedCountry.Confirmed
             });
         }
     }
@@ -34,17 +36,17 @@ class CasesGrid extends Component {
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <Paper className={"Paper"}>
-                            <CasesBox name="Total Active" value={this.state.active} />
+                            <CasesBox name="Total Active" value={this.state.active} total={this.state.confirmed} />
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className={"Paper"}>
-                            <CasesBox name="Total Recovered" value={this.state.recovered} />
+                            <CasesBox name="Total Recovered" value={this.state.recovered} total={this.state.confirmed} />
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className={"Paper"}>
-                            <CasesBox name="Total Deaths" value={this.state.deaths} />
+                            <CasesBox name="Total Deaths" value={this.state.deaths} total={this.state.confirmed} />
                         </Paper>
                     </Grid>
                 </Grid>
