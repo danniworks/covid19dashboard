@@ -6,24 +6,45 @@ import './CasesContainers.css';
 import CasesBox from './CasesBox';
 
 class CasesGrid extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            active: 0,
+            recovered: 0,
+            deaths: 0
+        }
+    }
     
+    componentDidUpdate(previousProps) {
+        const { covidJson } = this.props;
+
+        if (previousProps.covidJson !== this.props.covidJson) {
+            const updatedCountry = covidJson.updatedCountry[0];
+            this.setState({
+                active: updatedCountry.Active,
+                recovered: updatedCountry.Recovered,
+                deaths: updatedCountry.Deaths
+            });
+        }
+    }
+
     render() {
         return (
             <div>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <Paper className={"Paper"}>
-                            <CasesBox name="Total Active"/>
+                            <CasesBox name="Total Active" value={this.state.active} />
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className={"Paper"}>
-                            <CasesBox name="Total Recovered"/>
+                            <CasesBox name="Total Recovered" value={this.state.recovered} />
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className={"Paper"}>
-                            <CasesBox name="Total Deaths"/>
+                            <CasesBox name="Total Deaths" value={this.state.deaths} />
                         </Paper>
                     </Grid>
                 </Grid>

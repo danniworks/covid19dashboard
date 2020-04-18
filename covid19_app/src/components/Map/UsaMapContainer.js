@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import d3tip from 'd3-tip';
 import Loader from 'react-loader-spinner';
 
-const styles = theme => ({
+const styles = () => ({
     states: {
         '&:hover': {
             opacity: .3
@@ -39,17 +39,22 @@ class UsaMapContainer extends Component {
     }
 
     componentDidUpdate() {
-        const { stateData } = this.props;
-        if (this.state.isLoading && (stateData != null)) this.renderMap(stateData);
+        const { covidJson } = this.props;
+        if (this.state.isLoading && (covidJson != null)) this.renderMap(covidJson);
     }
 
-    renderMap(stateData) {
+    formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
+    renderMap(covidJson) {
         const { classes } = this.props;
         Promise.all([d3.json(window.location.origin + "/usaStates.geojson")]).then( (data) => {
+            this.setState({ isLoading: false });
             const geoJson = data[0];
 
-            Object.keys(stateData.updatedStates).forEach( (key) => {
-                const stateObject = stateData.updatedStates[key];
+            Object.keys(covidJson.updatedStates).forEach( (key) => {
+                const stateObject = covidJson.updatedStates[key];
                 const stateName = stateObject.State;
                 const covidData = stateObject.Confirmed;
                 const active = stateObject.Active;
@@ -74,15 +79,15 @@ class UsaMapContainer extends Component {
                 .offset([-5, 0])
                 .html( (d) => {         
                     const stateName = d.properties.NAME;
-                    const recovered = d.properties.recovered;
-                    const deaths = d.properties.deaths;
-                    const active = d.properties.active;
-                    const confirmed = d.properties.value;
-                    const data = '<b style="font-size:20px">' + stateName + '</b>' + '<br/>'
-                                + 'Confirmed:      ' + confirmed + '<br/>'
-                                + 'Active:         ' + active + '<br/>'
-                                + 'Recovered:      ' + recovered + '<br/>'
-                                + 'Deaths:         ' + deaths;
+                    const recovered = this.formatNumber(d.properties.recovered);
+                    const deaths = this.formatNumber(d.properties.deaths);
+                    const active = this.formatNumber(d.properties.active);
+                    const confirmed = this.formatNumber(d.properties.value);
+                    const data = '<b style="font-size:20px">' + stateName + '</b><br/>'
+                                + 'Confirmed: ' + confirmed + '<br/>'
+                                + 'Active: ' + active + '<br/>'
+                                + 'Recovered: ' + recovered + '<br/>'
+                                + 'Deaths: ' + deaths;
                     return data;
                 });
 
@@ -109,17 +114,13 @@ class UsaMapContainer extends Component {
     render() {
         return (
             <div>
-                <svg ref={this.mapRef} width={this.width} height={this.height} />
+                {this.state.isLoading 
+                    ? <Loader type="TailSpin" color="#4287f5" height={this.height} width={100}/> 
+                    : <svg ref={this.mapRef} width={this.width} height={this.height} />
+                }
             </div>
         );
     }
 }
 
 export default withStyles(styles)(UsaMapContainer);
-
-            // <div>
-            //     {this.state.isLoading 
-            //         ? <Loader type="TailSpin" color="#4287f5" height={50} width={50}/> 
-            //         : <svg ref={this.mapRef} width={this.width} height={this.height} />
-            //     }
-            // </div>

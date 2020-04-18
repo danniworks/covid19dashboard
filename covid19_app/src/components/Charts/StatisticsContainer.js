@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import Divider from '@material-ui/core/Divider';
 
-const styles = theme => ({
+const styles = () => ({
     Header: {
         color: 'white',
         backgroundColor: '#7a7a7a'

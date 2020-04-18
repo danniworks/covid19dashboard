@@ -39,9 +39,9 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            endpoint : 'wss://6ka50xq2x9.execute-api.us-east-1.amazonaws.com/dev',
+            endpoint: 'wss://api.covid19statstrack.com',
             socket: null,
-            casesByState: null
+            covidJson: null
         }
     }
 
@@ -52,7 +52,7 @@ class Main extends Component {
             this.setState({socket : ws});
             ws.send({"action" : "updates"});
             ws.onmessage = evt => {
-                this.setState({casesByState: this.parseJson(evt.data)});
+                this.setState({covidJson: this.parseJson(evt.data)});
             }
         };
     }
@@ -72,18 +72,18 @@ class Main extends Component {
                         Dashboard / United States
                     </Container>
                     <Container className={classes.Container}>
-                        <CasesGrid />
+                        <CasesGrid covidJson={this.state.covidJson} />
                     </Container>
                     <Container className={classes.Container}>
                         <Grid container spacing={2}>
                             <Grid item xs={9}>
                                 <Paper className={classes.Paper}>
-                                    <UsaMapContainer stateData={this.state.casesByState}/>
+                                    <UsaMapContainer covidJson={this.state.covidJson} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={3}>
                                 <Paper className={classes.Paper}>
-                                    <Breakdown />
+                                    <Breakdown covidJson={this.state.covidJson}/>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -92,12 +92,12 @@ class Main extends Component {
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                    <StatesCasesGrid stateData={this.state.casesByState}/>
+                                    <StatesCasesGrid covidJson={this.state.covidJson} />
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
                                 <Paper className={classes.paper}>
-                                    <StatisticsContainer />
+                                    <StatisticsContainer covidJson={this.state.covidJson} />
                                 </Paper>
                             </Grid>
                         </Grid>

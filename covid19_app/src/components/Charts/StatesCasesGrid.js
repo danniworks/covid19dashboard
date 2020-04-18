@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 
-const styles = theme => ({
+const styles = () => ({
     Header: {
         color: 'white',
         backgroundColor: '#7a7a7a'
@@ -42,17 +42,21 @@ class StateCasesGrid extends Component {
         }
     }
 
-    mapDataToTable(stateData) {
+    formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
+    mapDataToTable(covidJson) {
         const statesList = [];
-        Object.keys(stateData.updatedStates).forEach( (key) => {
-            const stateObject = stateData.updatedStates[key];
+        Object.keys(covidJson.updatedStates).forEach( (key) => {
+            const stateObject = covidJson.updatedStates[key];
             if (stateObject.State !== "") {
                 var html = 
                     <TableRow hover role="checkbox" tabIndex={-1} key={key}>
                         <TableCell key="states"><b>{stateObject.State}</b></TableCell>
-                        <TableCell key="confirmed">{stateObject.Confirmed}</TableCell>
-                        <TableCell key="active">{stateObject.Recovered}</TableCell>
-                        <TableCell key="deaths">{stateObject.Deaths}</TableCell>
+                        <TableCell key="confirmed">{this.formatNumber(stateObject.Confirmed)}</TableCell>
+                        <TableCell key="active">{this.formatNumber(stateObject.Recovered)}</TableCell>
+                        <TableCell key="deaths">{this.formatNumber(stateObject.Deaths)}</TableCell>
                     </TableRow>;
                 statesList.push(html);
             }
@@ -62,8 +66,8 @@ class StateCasesGrid extends Component {
 
     render() {
         const { classes } = this.props;
-        const { stateData } = this.props;
-        const stateHtml = (stateData != null) ? this.mapDataToTable(stateData) : null;
+        const { covidJson } = this.props;
+        const stateHtml = (covidJson != null) ? this.mapDataToTable(covidJson) : null;
         return (
             <div>
                 <Typography display="block" className={classes.TableTitle}>

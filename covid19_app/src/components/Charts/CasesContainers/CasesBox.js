@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 
-const styles = theme => ({
+const styles = () => ({
     root: {
         color: 'white',
         backgroundColor: '#7a7a7a'
@@ -19,7 +19,8 @@ const styles = theme => ({
         textAlign: 'left',
         paddingLeft: 25,
         paddingBottom: 10,
-        paddingTop: 3
+        paddingTop: 1,
+        fontSize: 30
     }
 });
 
@@ -28,6 +29,10 @@ class CasesBox extends Component {
     constructor(props) {
         super(props);
         this.name = this.props.name;
+    }
+
+    formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     render() {
@@ -42,7 +47,7 @@ class CasesBox extends Component {
                     </Grid>
                     <Grid item xs={8}>
                         <Typography className={classes.Numbers}>
-                            <b>0</b>
+                            <b >{this.formatNumber(this.props.value)}</b>
                         </Typography>
                     </Grid>
                     <Grid item xs={4}>
