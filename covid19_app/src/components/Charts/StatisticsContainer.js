@@ -26,7 +26,7 @@ class StatisticsContainer extends Component {
         return (
             <div className={classes.Container}>
                 <Typography display="block" className={classes.TableTitle}>
-                    <b>Growth Rate</b>
+                    <b>Growth Trend (Feature in progress...)</b>
                 </Typography>
                 <Divider />
             </div>

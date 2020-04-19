@@ -23,6 +23,9 @@ const styles = () => ({
     },
     Container: {
         height: 500
+    },
+    Active: {
+        color: 'red'
     }
 });
 
@@ -34,7 +37,7 @@ class StateCasesGrid extends Component {
         const colHeaders = [
             { id: 'state', label: 'State', minWidth: 100 },
             { id: 'confirmed', label: 'Confirmed', minWidth: 100 },
-            { id: 'active', label: 'Recovered', minWidth: 100 },
+            { id: 'active', label: 'Active', minWidth: 100 },
             { id: 'deaths', label: 'Deaths', minWidth: 100 },
         ];
 
@@ -48,15 +51,16 @@ class StateCasesGrid extends Component {
     }
 
     mapDataToTable(covidJson) {
+        const { classes } = this.props;
         const statesList = [];
         Object.keys(covidJson.updatedStates).forEach( (key) => {
             const stateObject = covidJson.updatedStates[key];
-            if (stateObject.State !== "") {
+            if (stateObject.State !== "Recovered") {
                 var html = 
                     <TableRow hover role="checkbox" tabIndex={-1} key={key}>
                         <TableCell key="states"><b>{stateObject.State}</b></TableCell>
                         <TableCell key="confirmed">{this.formatNumber(stateObject.Confirmed)}</TableCell>
-                        <TableCell key="active">{this.formatNumber(stateObject.Recovered)}</TableCell>
+                        <TableCell key="active" className={classes.Active}>{this.formatNumber(stateObject.Active)}</TableCell>
                         <TableCell key="deaths">{this.formatNumber(stateObject.Deaths)}</TableCell>
                     </TableRow>;
                 statesList.push(html);

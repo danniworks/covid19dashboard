@@ -10,6 +10,7 @@ import StatesCasesGrid from './Charts/StatesCasesGrid';
 import StatisticsContainer from './Charts/StatisticsContainer';
 import CasesGrid from './Charts/CasesContainers/CasesGrid';
 import Breakdown from './Charts/Breakdown';
+import Headers from './Charts/Headers';
 
 const styles = (theme) => ({
     root: {
@@ -19,10 +20,11 @@ const styles = (theme) => ({
     Paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'white'
     },
     Container: {
-        padding: theme.spacing(1)
+        padding: theme.spacing(1),
+        paddingTop: 15
     },
     Dashboard: {
         textAlign: 'left',
@@ -69,7 +71,7 @@ class Main extends Component {
                 <div className={classes.Spacer} />
                 <div>
                     <Container className={classes.Dashboard}>
-                        Dashboard (Under Construction) / United States / Last Updated : 4/16/2020
+                        <Headers covidJson={this.state.covidJson}/>
                     </Container>
                     <Container className={classes.Container}>
                         <CasesGrid covidJson={this.state.covidJson} />

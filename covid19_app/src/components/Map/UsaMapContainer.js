@@ -79,14 +79,12 @@ class UsaMapContainer extends Component {
                 .offset([-5, 0])
                 .html( (d) => {         
                     const stateName = d.properties.NAME;
-                    const recovered = this.formatNumber(d.properties.recovered);
                     const deaths = this.formatNumber(d.properties.deaths);
                     const active = this.formatNumber(d.properties.active);
                     const confirmed = this.formatNumber(d.properties.value);
                     const data = '<b style="font-size:20px">' + stateName + '</b><br/>'
                                 + 'Confirmed: ' + confirmed + '<br/>'
                                 + 'Active: ' + active + '<br/>'
-                                + 'Recovered: ' + recovered + '<br/>'
                                 + 'Deaths: ' + deaths;
                     return data;
                 });

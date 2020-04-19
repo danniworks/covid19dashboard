@@ -41,6 +41,11 @@ class PieChart extends Component {
     }
 
     renderPieChart(dataJson) {
+        const total =  this.props.json.Confirmed;
+        const activePercent = (dataJson[0].value/total).toFixed(4) * 100;
+        const recoveredPercent = (dataJson[1].value/total).toFixed(4) * 100;
+        const deathsPercent = (dataJson[2].value/total).toFixed(4) * 100;
+
         const { classes } = this.props;
         const color = d3.scaleOrdinal([
             activeColor, 
@@ -56,7 +61,7 @@ class PieChart extends Component {
 
         const arcs = pie(dataJson);
         const arc = d3.arc()
-            .innerRadius(50)
+            .innerRadius(25)
             .outerRadius(Math.min(this.width, this.height) / 2 - 1)
 
         const svg = d3.select('.Chart');
@@ -77,19 +82,25 @@ class PieChart extends Component {
                 .attr('stroke', 'white') 
                 .attr('stroke-width', '3px');   
         
-        const legend = d3.select('.PieChart-Graph-204');
+        const legend = d3.select('.PieChart-Graph-209');
             legend.append('circle').attr('cx',20).attr('cy', 10).attr('r', 6).style('fill', activeColor);
             legend.append('circle').attr('cx',20).attr('cy', 40).attr('r', 6).style('fill', recoveredColor);
             legend.append('circle').attr('cx',20).attr('cy', 70).attr('r', 6).style('fill', deathsColor);
 
             legend.append('text').attr('class', classes.Text).attr('x', 50).attr('y', 10)
                 .text('Active').style('fill', activeColor).attr('alignment-baseline','middle');
+            legend.append('text').attr('class', classes.Text).attr('x', 150).attr('y', 10)
+                .text(activePercent + '%').style('fill', activeColor).attr('alignment-baseline','middle');
 
             legend.append('text').attr('class', classes.Text).attr('x', 50).attr('y', 40)
                 .text('Recovered').style('fill', recoveredColor).attr('alignment-baseline','middle');
+            legend.append('text').attr('class', classes.Text).attr('x', 150).attr('y', 40)
+                .text(recoveredPercent + '%').style('fill', recoveredColor).attr('alignment-baseline','middle');
 
             legend.append('text').attr('class', classes.Text).attr('x', 50).attr('y', 70)
                 .text('Deaths').style('fill', deathsColor).attr('alignment-baseline','middle');
+            legend.append('text').attr('class', classes.Text).attr('x', 150).attr('y', 70)
+                .text(deathsPercent + '%').style('fill', deathsColor).attr('alignment-baseline','middle');
     }
 
     render() {
