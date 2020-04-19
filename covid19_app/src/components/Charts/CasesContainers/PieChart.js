@@ -82,7 +82,7 @@ class PieChart extends Component {
                 .attr('stroke', 'white') 
                 .attr('stroke-width', '3px');   
         
-        const legend = d3.select('.PieChart-Graph-209');
+        const legend = d3.select('.jss208');
             legend.append('circle').attr('cx',20).attr('cy', 10).attr('r', 6).style('fill', activeColor);
             legend.append('circle').attr('cx',20).attr('cy', 40).attr('r', 6).style('fill', recoveredColor);
             legend.append('circle').attr('cx',20).attr('cy', 70).attr('r', 6).style('fill', deathsColor);
